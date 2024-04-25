@@ -1,0 +1,51 @@
+﻿<Window x:Class="WpfAppFinanse.Views.CorrectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppFinanse.Views"
+        xmlns:vm="clr-namespace:WpfAppFinanse.ViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Correction" Height="450" Width="800"
+        Background="{DynamicResource BackgroundBrush}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="10">
+            <Label Content="День"/>
+            <DatePicker SelectedDate="{Binding SelectedDay}"/>
+            <Label Content="Период"/>
+            <DatePicker SelectedDate="{Binding PeriodStart}"/>
+            <DatePicker SelectedDate="{Binding PeriodEnd}"/>
+            <Button Content="Поиск" Command="{Binding SearchCommand}" Style="{DynamicResource CustomButton}"/>
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" Style="{DynamicResource CustomButton}"/>
+            <Button Content="Удалить все" Command="{Binding DeleteAllCommand}" Style="{DynamicResource CustomButton}"/>
+        </StackPanel>
+
+        <Border Grid.Column="1" Margin="10" Background="Gray">
+            <ListView ItemsSource="{Binding Transactions}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Date}"/>
+                        <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Amount}"/>
+                        <!--<GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>-->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+        <TextBlock Text="{Binding SnackbarMessage}" Visibility="{Binding IsSnackbarActive, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" Foreground="Red"/>
+
+    </Grid>
+</Window>
